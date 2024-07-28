@@ -13,7 +13,7 @@ const App = () => {
     const fetchRates = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/rates');
-        setRates(response.data.rates);
+        setRates(response.data.rates || {});
       } catch (error) {
         console.error('Error fetching exchange rates', error);
       }
@@ -32,7 +32,7 @@ const App = () => {
     setSteps(newSteps);
   };
 
-  const addTask = (e) => {
+  const addTask = async (e) => {
     e.preventDefault();
     const newTask = {
       name: taskName,
@@ -40,10 +40,15 @@ const App = () => {
       cost: parseFloat(cost),
       currency
     };
-    setTasks([...tasks, newTask]);
-    setTaskName('');
-    setSteps(['']);
-    setCost('');
+    try {
+      const response = await axios.post('http://localhost:5000/api/tasks', newTask);
+      setTasks([...tasks, response.data]);
+      setTaskName('');
+      setSteps(['']);
+      setCost('');
+    } catch (error) {
+      console.error('Error adding task', error);
+    }
   };
 
   return (
