@@ -25,7 +25,9 @@ const TaskForm = ({ rates, setTasks, currency, setCurrency }) => {
       name: taskName,
       steps: steps.filter(step => step !== ''),
       cost: parseFloat(cost),
-      currency
+      currency,
+      convertedCost: convertedCost ? parseFloat(convertedCost) : null,
+      targetCurrency: convertedCost ? targetCurrency : null
     };
     try {
       const response = await axios.post('http://localhost:5000/api/tasks', newTask);
@@ -34,6 +36,7 @@ const TaskForm = ({ rates, setTasks, currency, setCurrency }) => {
       setSteps(['']);
       setCost('');
       setConvertedCost(null);
+      setTargetCurrency('USD');
     } catch (error) {
       console.error('Error adding task', error);
     }

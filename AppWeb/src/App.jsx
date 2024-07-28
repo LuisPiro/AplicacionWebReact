@@ -32,6 +32,9 @@ const App = () => {
               <h3>{task.name}</h3>
               <p>Steps: {task.steps.join(', ')}</p>
               <p>Cost: {task.cost} {task.currency}</p>
+              {task.convertedCost && (
+                <p>Converted Cost: {task.convertedCost} {task.targetCurrency}</p>
+              )}
             </li>
           ))}
         </ul>
